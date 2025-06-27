@@ -1,0 +1,12 @@
+.editpage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    min-width: 100%;
+
+}
+
+.canvas-container {
+    display: inline-block;
+  }

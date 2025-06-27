@@ -1,0 +1,39 @@
+.header-bar {
+    max-width: 100%;
+    padding: 12px 12px;
+    margin-bottom: 8px;
+    background-color: #242424;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 32x;
+    height: 32px;
+    border-radius: 4px;
+}
+
+.selector{
+    padding: 6px 4px;
+    border: 0px;
+    border-radius: 4px;
+    background-color: transparent;
+}
+
+.selector:hover{
+    background-color: #1A1A1A;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-zoom {
+    width: 45px;
+    height: 32px;
+}
