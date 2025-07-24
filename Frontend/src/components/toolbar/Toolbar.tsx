@@ -1,15 +1,18 @@
-import {use, useState} from 'react';
+import { useRef, useState } from 'react';
 import { tools } from './tools';
 import './Toolbar.css'
 import { RenderSettings } from './RenderSettings';
+import { Rect, Canvas, FabricImage } from 'fabric';
+import img1 from '../../assets/img1.png'
+import img2 from '../../assets/img2.png'
+import img3 from '../../assets/img3.png'
 
 
 interface ToolbarProps {
-    scale: number;
-    setScale: React.Dispatch<React.SetStateAction<number>>;
+    canvas: Canvas | null;
   }
 
-const Toolbar: React.FC<ToolbarProps> = ({scale, setScale}) => {
+const Toolbar: React.FC<ToolbarProps> = ({canvas}) => {
     
     const [ sidebarHover, setSidebarHover ] = useState(false);
     const [ selectedToggle, setSelectedToggle ] = useState(false);
@@ -90,16 +93,39 @@ const Toolbar: React.FC<ToolbarProps> = ({scale, setScale}) => {
     };   
 
     const handleZoomIn = () => {
-      setScale(scale + 0.10)
-      console.log(`zoomin + ${scale}`);
+
     };
     
     const handleZoomOut = () => {
-      if (scale > 0.25){
-          setScale(scale - 0.10)
-      }
-      console.log(`zoomout + ${scale}`);
+
     };
+
+    const handleImage = (imgName: string) => {
+      if (canvas) {
+        let imageElement = document.createElement('img');
+        imageElement.src = imgName;
+        imageElement.onload = function () {
+          const image = new FabricImage(imageElement, {
+            left: 100,
+            top: 100,
+            scaleX: 0.5,
+            scaleY: 0.5,
+          });
+          canvas.add(image)
+          canvas.centerObject(image)
+          canvas.setActiveObject(image)
+          canvas.renderAll()
+          console.log('hello')
+        }
+      }
+    }
+
+    const testImages = [
+      { imgSrc: img1 },
+      { imgSrc: img2 },
+      { imgSrc: img3 },
+      { imgSrc: img1 }
+    ]
 
     const handlers: Record<string, () => void> = {
         MoveResize: handleMoveResize,
@@ -113,30 +139,69 @@ const Toolbar: React.FC<ToolbarProps> = ({scale, setScale}) => {
         ZoomOut: handleZoomOut,
     };
     return (
-        <div>
-            <div className={`toolbar ${sidebarHover ? 'expanded' : 'collapsed'}`} onMouseOver={() => setSidebarHover(true)} onMouseOut={() => setSidebarHover(false)}>
-              {/* <div className={`toolbar-container ${sidebarHover ? 'expanded' : 'collapsed'}`}> */}
-                {tools.map((tool, toolIndex) => (
-                  <div key={toolIndex} className='toolbar-button-container'>
-                    <button className={`toolbar-button ${tool.func === currentSelection || tool.func === currentMode ? 'selected' : 'deselected'}`}
-                      onClick={() => handlers[tool.func]?.()}>
-                          <div className='toolcard'>
-                              <div className='toolbar-img-container'>
-                                  <img src={tool.imgSrc} alt={tool.name} />
-                              </div>
-                              <div className={`collapsable ${sidebarHover ? 'expanded' : 'collapsed'}`}>
-                                  <p>{tool.name}</p>
-                              </div>
-                          </div>
-                      </button>
+      <div>
+        <div className={`toolbar ${sidebarHover ? 'expanded' : 'collapsed'}`}
+            onMouseOver={() => setSidebarHover(true)}
+            onMouseOut={() => setSidebarHover(false)}>
+          {tools.map((tool, i) => (
+            <div key={i} className="toolbar-button-container">
+              <button
+                className={`toolbar-button ${tool.func === currentSelection || tool.func === currentMode ? 'selected' : 'deselected'}`}
+                onClick={() => handlers[tool.func]?.()}>
+                <div className="toolcard">
+                  <div className="toolbar-img-container">
+                    <img src={tool.imgSrc} alt={tool.name} />
                   </div>
-                  ))}
-              {/* </div> */}
+                  <div className={`collapsable ${sidebarHover ? 'expanded' : 'collapsed'}`}>
+                    <p>{tool.name}</p>
+                  </div>
+                </div>
+              </button>
             </div>
-            <div className={`collapsable-settings ${selectedToggle ? 'expanded' :  'collapsed'}`}>
-                {<RenderSettings currentMode={currentMode} setSelectedToggle={setSelectedToggle}/>}
-              </div>
+          ))}
         </div>
+
+        {/* Media Left Panel */}
+        {currentMode === 'Media' && selectedToggle && (
+          <div className="collapsable-settings l">
+            <div className="settings-title">
+              <h2>Media</h2>
+              <button onClick={() => setSelectedToggle(false)}>x</button>
+            </div>
+            <div className="media-settings-container">
+              <button onClick={() => console.log('Upload image')}>Upload Image</button>
+              <div className="media-settings">
+                {testImages.map((img, i) => (
+                  <div key={i}>
+                    <img src={img.imgSrc} onClick={() => handleImage(img.imgSrc)} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Right Settings Panel */}
+        <div className="right-toolbar">
+          <div className="collapsable-settings r expanded">
+            <div className="layers">
+              <h2>Layers</h2>
+              <div className="layers-list-container">
+                {testImages.map((img, i) => (
+                  <div className="layer-container" key={i}>
+                    <img className="layer-img" src={img.imgSrc} onClick={() => handleImage(img.imgSrc)} />
+                    <p>Layer {i}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <RenderSettings
+              currentMode={currentMode}
+              setSelectedToggle={setSelectedToggle}
+            />
+          </div>
+        </div>
+      </div>
     );
 };
 

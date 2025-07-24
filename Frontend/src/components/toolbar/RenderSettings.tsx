@@ -29,27 +29,6 @@ export const RenderSettings: React.FC<RenderSettingsProps> = ({
         </div>
       );
 
-    case 'Media':
-      return (
-        <div className="settings-container">
-          <div className="settings-title">
-            <h2>Media</h2>
-            <button onClick={() => setSelectedToggle(false)}>x</button>
-          </div>
-          <div className="settings-content">
-            <div className='media-settings-container'>
-              <button onClick={() => console.log('Upload image')}>Upload Image</button>
-              <div className='media-settings'>
-                {testImages.map((image, imgIndex) => (
-                  <div key={imgIndex}>
-                    <img src={image.imgSrc}/>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
 
     case 'Eraser':
       return (
@@ -85,10 +64,3 @@ export const RenderSettings: React.FC<RenderSettingsProps> = ({
       return null;
   }
 };
-
-
-const testImages = [
-  {imgSrc:img1},
-  {imgSrc:img2},
-  {imgSrc:img3},
-]

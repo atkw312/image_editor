@@ -1,30 +1,56 @@
+/* General Toolbar */
 .toolbar {
     display: flex;
     flex-direction: column;
     background-color: #242424;
-    left: 4px;
-    top: 64px;
     position: absolute;
+    top: 64px;
+    left: 4px;
     padding: 8px;
     border-radius: 12px;
-    z-index: 1;
     gap: 2px;
+    z-index: 1;
 }
 
 .toolbar.expanded {
     box-shadow: 8px 12px 12px #1a1a1a;
 }
+
 .toolbar.collapsed {
-    box-shadow: 0;
+    box-shadow: none;
 }
 
+/* Toolbar Buttons */
+.toolbar-button-container {
+    background-color: #242424;
+    border: none;
+}
+
+.toolbar-button-container:hover {
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    background-color: #3a3a3a;
+}
+
+.toolbar-button {
+    width: 100%;
+}
+
+.toolbar-button.selected {
+    border: 1px solid #8e8eac;
+    border-radius: 12px;
+    background-color: #8e8eac;
+}
+
+.toolbar-button.deselected {
+    border: none;
+    background-color: transparent;
+}
+
+/* Toolcard */
 .toolcard {
     display: flex;
-    flex-direction: row;
-    /* gap: 4px; */
     align-items: center;
-    /* justify-content: center; */
-    padding-bottom: -2px;
 }
 
 .toolbar-img-container {
@@ -41,35 +67,7 @@
     object-fit: contain;
 }
 
-.toolbar-button-container {
-    background-color: #242424;
-    border: none;
-    /* cursor: pointer; */
-}
-
-.toolbar-button-container:hover {
-    border: 1px solid #3a3a3a;
-    border-radius: 12px;
-    background-color: #3a3a3a;
-}
-
-.toolbar-button.selected {
-    width: 100%;
-    border: 1px solid #8e8eac;
-    border-radius: 12px;
-    background-color: #8e8eac;
-}
-
-.toolbar-button.deselected {
-    border: none;
-    background-color: transparent;
-}
-
-
-.tools-container {
-    padding: 8px;
-}
-
+/* Collapsable Text Label */
 .collapsable {
     overflow: hidden;
     white-space: nowrap;
@@ -78,52 +76,42 @@
     opacity: 1;
     padding-left: 8px;
 }
-  
+
 .collapsable.collapsed {
     max-width: 0;
     opacity: 0;
     padding-left: 0;
 }
 
-.collapsable.expanded {
-    max-width: 200px;
-    opacity: 1;
-    padding-left: 8px;
-}
-
+/* Settings Panel */
 .collapsable-settings {
-    overflow-x: hidden;
-    overflow-y: auto;
-    white-space: nowrap;
-    transition: max-width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
-    max-height: 100%;
-    opacity: 1;
-
     display: flex;
     flex-direction: column;
     background-color: #242424;
-    left: 64px;
-    top: 64px;
     position: absolute;
-    padding: 8px;
+    top: 64px;
+    padding: 0 24px 24px 24px;
     border-radius: 12px;
     z-index: 0;
-}
-
-.collapsable-settings.collapsed {
-    max-width: 0;
-    opacity: 0;
-    padding-left: 0;
-}
-
-
-.collapsable-settings.expanded {
-    max-width: 308px;
-    min-width: 200px;
+    /* transition: max-width 0.2s ease, opacity 0.2s ease, padding 0.2s ease; */
+    max-height: 100%;
+    max-width: 15%;
     opacity: 1;
-    padding-left: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: nowrap;
+    width: 250px;
 }
 
+.collapsable-settings.l {
+    left: 64px;
+}
+
+.collapsable-settings.r {
+    right: 12px;
+}
+
+/* Settings Title */
 .settings-title {
     display: flex;
     justify-content: space-between;
@@ -133,11 +121,11 @@
 .settings-title button {
     width: 30px;
     height: 30px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
     background-color: transparent;
-    border: 0;
+    border: none;
 }
 
 .settings-title button:hover {
@@ -145,6 +133,12 @@
     border-radius: 20px;
 }
 
+.settings-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Media Panel */
 .media-settings-container {
     display: flex;
     flex-direction: column;
@@ -153,20 +147,54 @@
 
 .media-settings {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
 }
 
 .media-settings img {
-    height: 150px;
-    width: 150px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
+/* Misc */
 .font-size-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-toolbar {
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.layers {
+    align-items: center;
+    min-height: 72px;
+}
+
+.layer-container {
+    border: 1px solid gray;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    padding: 8px;
+}
+
+.layers-list-container {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    flex-direction: column;
+    border: 1px solid gray;
+    max-height: 270px;
+    overflow-y: auto;
+}
+
+.layer-img {
+    height: 64px;
+    width: 64px;
+    object-fit: contain;
 }
